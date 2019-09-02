@@ -141,6 +141,19 @@ public class Util {
         return null;
     }
 
+    @Nullable
+    static List<LocalizedText> transformBundleReleaseNotes(@Nullable AabPublisher.RecentChanges[] list) {
+        if (list != null) {
+            return Arrays.stream(list).map(it -> {
+                if (it == null) return null;
+                return new LocalizedText()
+                        .setLanguage(it.language)
+                        .setText(it.text);
+            }).collect(Collectors.toList());
+        }
+        return null;
+    }
+
     static TrackRelease buildRelease(List<Integer> versionCodes, double userFraction, @Nullable List<LocalizedText> releaseNotes) {
         List<Long> longVersionCodes = versionCodes.stream().map(integer -> {
             if (integer == null) return null;

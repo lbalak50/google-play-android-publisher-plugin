@@ -1,0 +1,16 @@
+<div>
+    Specifies filenames or patterns matching one or more AABs that should be
+    uploaded to Google Play.
+    <p/>
+    You can use wildcards like "<tt>**/build/outputs/*/*-release.aab</tt>".<br/>
+    See <a href='https://ant.apache.org/manual/Types/fileset.html'>
+    the 'includes' attribute of Ant's FileSet</a> for the exact format.<br/>
+    Note that multiple entries must be comma-separated.
+    <p/>
+    The base directory is <a href='ws/'>the build's workspace</a>.
+    You can only upload AABs that are located in your workspace.
+    <p/>
+    <hr/>
+    This field supports substituting environment variables in the form
+    <tt>${SOME_VARIABLE}</tt> or <tt>$SOME_VARIABLE</tt> at build time.
+</div>

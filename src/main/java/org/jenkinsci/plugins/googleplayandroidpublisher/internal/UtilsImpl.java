@@ -1,6 +1,7 @@
 package org.jenkinsci.plugins.googleplayandroidpublisher.internal;
 
 import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.services.androidpublisher.AndroidPublisher;
 import com.google.jenkins.plugins.credentials.oauth.GoogleRobotCredentials;
 import java.io.File;
@@ -33,9 +34,17 @@ public class UtilsImpl implements JenkinsUtil, AndroidUtil {
     public AndroidPublisher createPublisherClient(GoogleRobotCredentials credentials, String pluginVersion)
             throws GeneralSecurityException {
         final Credential credential = credentials.getGoogleCredential(new AndroidPublisherScopeRequirement());
-        return new AndroidPublisher.Builder(credential.getTransport(), credential.getJsonFactory(), credential)
+        return new AndroidPublisher.Builder(credential.getTransport(), credential.getJsonFactory(), setHttpTimeout(credential))
                 .setApplicationName(String.format("Jenkins-GooglePlayAndroidPublisher/%s", pluginVersion))
                 .build();
+    }
+
+    static HttpRequestInitializer setHttpTimeout(final HttpRequestInitializer requestInitializer) {
+        return httpRequest -> {
+            requestInitializer.initialize(httpRequest);
+            httpRequest.setConnectTimeout(2 * 60000);  // 2 minutes connect timeout
+            httpRequest.setReadTimeout(2 * 60000);  // 2 minutes read timeout
+        };
     }
 
     // endregion

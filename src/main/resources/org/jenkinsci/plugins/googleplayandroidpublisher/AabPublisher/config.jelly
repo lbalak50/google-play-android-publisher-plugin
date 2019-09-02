@@ -1,0 +1,36 @@
+<?jelly escape-by-default="true"?>
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form" xmlns:c="/lib/credentials">
+
+  <f:entry title="${%Google Play account}" field="googleCredentialsId">
+    <c:select expressionAllowed="true" />
+  </f:entry>
+
+   <f:entry title="${%AAB files}" field="aabFilesPattern"
+       description="${%Comma-separated list of filenames or patterns}">
+     <f:textbox />
+   </f:entry>
+
+   <f:entry title="${%Application ID}" field="applicationId"
+       description="${%Application ID of your app}">
+     <f:textbox />
+   </f:entry>
+
+  <f:entry title="${%Deobfuscation files}" field="deobfuscationFilesPattern"
+      description="${%Optional, comma-separated list of filenames or patterns}">
+    <f:textbox />
+  </f:entry>
+
+  <f:entry title="${%Release track}" field="trackName">
+    <f:combobox style="width:15em" />
+  </f:entry>
+
+  <f:entry title="${%Rollout %}" field="rolloutPercentage"
+      description="${%Defaults to 100% if not set}">
+    <f:combobox style="width:15em" />
+  </f:entry>
+
+  <f:entry title="${%Recent changes}" field="recentChangeList">
+    <f:repeatableProperty field="recentChangeList" add="${%Add language...}" minimum="0" />
+  </f:entry>
+
+</j:jelly>

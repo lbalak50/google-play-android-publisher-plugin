@@ -74,6 +74,30 @@ public class UtilsTest {
     }
 
     @Test
+    public void bundleReleaseNotes_nullToNull() {
+        // null -> null
+        assertNull(Util.transformBundleReleaseNotes(null));
+
+        // Any null values in the array become null values in the list
+        AabPublisher.RecentChanges[] input = new AabPublisher.RecentChanges[]{null};
+        List<LocalizedText> result = Util.transformBundleReleaseNotes(input);
+        assertThat(result, hasSize(1));
+        assertNull(result.get(0));
+    }
+
+    @Test
+    public void bundleReleaseNotes_transformed() {
+        AabPublisher.RecentChanges[] input = new AabPublisher.RecentChanges[]{
+                new AabPublisher.RecentChanges("en", "The text")
+        };
+        List<LocalizedText> result = Util.transformBundleReleaseNotes(input);
+
+        assertThat(result, hasSize(1));
+        assertEquals("en", result.get(0).getLanguage());
+        assertEquals("The text", result.get(0).getText());
+    }
+
+    @Test
     public void errorMessage_withCredentialsError_passesThrough() {
         UploadException err = new CredentialsException("This is the auth error");
         assertEquals("This is the auth error", Util.getPublisherErrorMessage(err));
